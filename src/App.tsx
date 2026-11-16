@@ -3,6 +3,8 @@ import { useStore } from './data/store';
 import { useRoute } from './lib/route';
 import type { Role } from './lib/types';
 import { Costs } from './pages/Costs';
+import { Decisions } from './pages/Decisions';
+import { Options } from './pages/Options';
 import { Verdict } from './pages/Verdict';
 import { Workings } from './pages/Workings';
 
@@ -12,6 +14,8 @@ const PAGES: Page[] = [
   { path: 'verdict', label: 'Verdict', roles: ['organiser', 'group', 'groom'], render: () => <Verdict /> },
   { path: 'costs', label: 'Costs', roles: ['organiser', 'group'], wide: true, render: () => <Costs /> },
   { path: 'workings', label: 'Workings', roles: ['organiser', 'group', 'groom'], render: () => <Workings /> },
+  { path: 'options', label: 'Options', roles: ['organiser', 'group'], render: () => <Options /> },
+  { path: 'decisions', label: 'Decisions', roles: ['organiser', 'group'], render: () => <Decisions /> },
 ];
 
 export function App() {

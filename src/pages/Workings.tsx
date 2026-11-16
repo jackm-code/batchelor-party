@@ -8,6 +8,7 @@ import {
 import { pays, type Who } from '../lib/cost';
 import { cityName, money, plural, tierName, ukDate, usdToGbp } from '../lib/format';
 import { useRoute } from '../lib/route';
+import { ErrorNote, useAction } from '../components/forms';
 import type { Assumption, Bundle, CityId, Tier } from '../lib/types';
 import { BreakEvenCard, scenarioLine } from './Costs';
 
@@ -257,7 +258,8 @@ function InputLine({ input }: { input: ModelInput }) {
 }
 
 function WhatIf({ prov, unit, saved, label }: { prov: Provenance; unit: ModelInput['unit'] | Assumption['unit']; saved: number; label: string }) {
-  const { overrides, setOverride } = useStore();
+  const { overrides, setOverride, role, call } = useStore();
+  const act = useAction();
   const key = overrideKey(prov);
   const scale = unit === 'usd_cents' ? 100 : 1;
   const current = overrides[key];
@@ -277,6 +279,15 @@ function WhatIf({ prov, unit, saved, label }: { prov: Provenance; unit: ModelInp
         <span aria-hidden="true">{unit === 'percent' ? '%' : ''}</span>
         <button className="btn quiet small" disabled={!active} onClick={() => setOverride(key, null)}>Reset</button>
       </div>
+      {role === 'organiser' && active && (
+        <p>
+          <button className="btn small secondary" disabled={act.busy} onClick={async () => {
+            const row = prov.entity === 'option' ? { id: prov.id, price_amount: Math.round(current) } : { id: prov.id, value: current };
+            if (await act.run(() => call('api_upsert', { p_table: prov.entity === 'option' ? 'options' : 'assumptions', p_row: row }))) setOverride(key, null);
+          }}>Save as the stored value</button>
+        </p>
+      )}
+      <ErrorNote error={act.error} />
       <p className="caption">
         {active ? <><Badge kind="plain">What-if</Badge> Saved value: {showValue(unit, saved)}. </> : null}
         Changes every total that uses this figure. Not saved.

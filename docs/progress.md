@@ -8,8 +8,8 @@ Branch: `claude/compassionate-einstein-9g5ws3`.
 | a | Schema and seed data | Done |
 | b | Cost calculator and Costs matrix | Done |
 | c | Workings view (and Verdict page) | Done |
-| d | Options, Decisions, Open questions | Next |
-| e | Roles, groom view, publish switch | To do |
+| d | Options, Decisions, Open questions | Done |
+| e | Roles, groom view, publish switch | Next |
 | f | CSV and Markdown export | To do |
 
 ## How to run
@@ -100,6 +100,25 @@ Boston $540 / $310 / $5,019 and NYC $558 / $593 / $6,273. In NYC, Boston-based g
   live; fit, logistics and risk come from research phase 1; "The case for NYC" has a live numbers
   check against the break-even rate.
 - The research point "the groom lives in Boston" was left out: Jack confirmed he lives in Minnesota.
+
+## Stage (d): Options, Decisions, Open questions
+
+- `supabase/migrations/20261116000200_writes.sql`: every change goes through a passcode-checked
+  database function. `api_upsert` and `api_delete` (organiser), `api_supersede_decision`,
+  `api_add_source`, `api_set_setting`, `api_vote` and `api_comment` (organiser and group).
+- Rules: a figure cannot be marked verified without a source; exchange rates are add-only;
+  decisions, options and assumptions cannot be deleted; the groom cannot vote or comment.
+- `src/pages/Options.tsx`: filter by city, type and status. Each option shows price in both
+  currencies, source and badge, conflicts, lead time, fit note, votes and comments. Organiser can
+  add and edit options and attach a source.
+- `src/pages/Decisions.tsx`: decision log with history (who, when, old value), edit, and "replace
+  with a new decision". Open questions: add, and close only by choosing the decision that answers it.
+- Workings: the organiser can save a what-if value as the stored value.
+- `src/components/forms.tsx`: shared form helpers and the "your name" picker for votes and comments.
+- `tests/api.test.ts`: 15 tests of the rules above.
+
+Guests must be on the guest list to vote or comment; only the organiser can add them (stage e adds
+the screen for that).
 
 ## Not done yet (after stage f)
 

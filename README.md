@@ -25,6 +25,6 @@ npm test
 - [x] (a) Schema and seed data
 - [x] (b) Cost calculator and Costs matrix
 - [x] (c) Workings view and Verdict page
-- [ ] (d) Options, Decisions, Open questions
+- [x] (d) Options, Decisions, Open questions
 - [ ] (e) Roles, groom view, publish switch
 - [ ] (f) CSV and Markdown export
