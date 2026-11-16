@@ -10,7 +10,7 @@ Branch: `claude/compassionate-einstein-9g5ws3`.
 | c | Workings view (and Verdict page) | Done |
 | d | Options, Decisions, Open questions | Done |
 | e | Roles, groom view, publish switch | Done |
-| f | CSV and Markdown export | Next |
+| f | CSV and Markdown export | Done |
 
 ## How to run
 
@@ -141,9 +141,39 @@ the screen for that).
 Passcode links: `https://<site>/?k=<passcode>`. The passcode is saved on the device and removed from
 the address bar. Demo passcodes are in `supabase/dev_seed.sql`; never run that file on the real database.
 
-## Not done yet (after stage f)
+## Stage (f): CSV and Markdown export
 
-- Create the Supabase project, run the migrations and seed, set real passcodes with
-  `select set_access_code('organiser', '...')`, and put the project URL and anon key in `.env`.
-- Choose the static host and deploy.
-- FR-14 itinerary builder (a "should") is not in this build.
+- `src/lib/export.ts`: options, decisions and open questions as CSV; everything as one Markdown file
+  laid out to replace the Claude Project knowledge file. Each figure carries Verified or Unverified
+  and its sources. CSV cells that look like formulas are neutralised.
+- `src/components/ExportPanel.tsx`: four download buttons on the Settings page (organiser only).
+- `tests/export.test.ts`: 8 tests, including a strict CSV re-parse.
+
+## Section 8 acceptance checklist (run 16 Nov 2026, demo database)
+
+| # | Criterion | Result | Evidence |
+| --- | --- | --- | --- |
+| 1 | Seeded Budget, 2 nights, 12 people reproduces section 7 | Pass | Boston $540 / $310 / $5,019; NYC $558 / $593 / $6,273 (`tests/cost.test.ts`, and on screen) |
+| 2 | Group size, tier, nights or FX updates every total and the verdict, no reload | Pass | Browser run: all totals and the Verdict changed; one page load in the whole run; update took 5 ms |
+| 3 | Every total opens a workings view with source and date, or an unverified badge | Pass | All totals and all 48 matrix cells link to Workings; every input line carries a badge |
+| 4 | GBP and USD both show with the FX rate and date; flights never in a total | Pass | Rate and date under each result card and each matrix table; flights are flagged and not calculator inputs (tested) |
+| 5 | Matrix: 3 tiers x 2 and 3 nights x 6, 8, 10, 12, both cities | Pass | 6 tables, 4 group rows, 48 cells, USD and GBP in each |
+| 6 | A decision cannot be deleted, only superseded; history shows who and when | Pass | Database trigger and `api_delete` both refuse (tested); History on each decision |
+| 7 | Closing a question requires the decision that answers it | Pass | Database constraint (tested); the form asks for it |
+| 8 | A Group member cannot edit inputs or see Payments | Pass | Write functions refuse the group passcode (tested); payments are never sent to that role; no page or controls |
+| 9 | Groom view returns nothing until publish, then Verdict and Workings read-only | Pass | `tests/roles.test.ts`; browser run as the groom before and after |
+| 10 | Two conflicting sources both display, with the one used and why | Pass with a gap | Both values, the one used and the reason show beside the figure. For three of the six seeded conflicts the research did not record which page gave which value, so no links |
+| 11 | CSV and Markdown export opens cleanly | Pass | Strict CSV re-parse and table-width checks (tested); four files downloaded in the browser. Not opened in Excel itself |
+| 12 | All pages usable at 375px and pass a keyboard-only run | Pass | No sideways scroll on any of the 7 pages; every control reachable by Tab; controls at least 44px; text contrast at least 4.5:1 in light and dark. Not tested with a screen reader |
+
+73 automated tests pass (`npm test`).
+
+## Not done yet
+
+- **Go live:** nothing has run against a real Supabase project. Steps are in `docs/deploy.md`.
+- **FR-14 itinerary builder** (a "should") is not built.
+- **Saved scenarios:** the table and seed exist, but there is no "save this scenario" button yet.
+- **Assumption text edits:** the organiser can change an assumption's number (Workings > "Try a
+  different value" > "Save as the stored value") but cannot yet edit its reason or text facts in the UI.
+- **Knowledge file:** `docs/bachelor-party-knowledge.md` still has the two errors (Memorial Day, groom
+  lives in Boston). The site uses the corrected facts; the file itself is unedited.

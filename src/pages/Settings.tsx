@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useStore } from '../data/store';
 import { Badge, Field, Seg, Switch } from '../components/ui';
 import { ErrorNote, today, useAction } from '../components/forms';
@@ -20,7 +20,7 @@ function changeLine(a: AuditRow): string {
   return `Changed ${thing} “${name}”: ${changed.map((k) => `${k.replace(/_/g, ' ')} was ${JSON.stringify(a.old_row?.[k])}, now ${JSON.stringify(a.new_row?.[k])}`).join('; ')}`;
 }
 
-export function Settings({ exportPanel }: { exportPanel?: React.ReactNode }) {
+export function Settings({ exportPanel }: { exportPanel?: ReactNode }) {
   const { bundle, call, demo, signOut } = useStore();
   const b = bundle!;
   const act = useAction();

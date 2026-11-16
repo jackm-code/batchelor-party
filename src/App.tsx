@@ -3,6 +3,7 @@ import { useStore } from './data/store';
 import { DEMO_CODES } from './data/api';
 import { useRoute } from './lib/route';
 import type { Role } from './lib/types';
+import { ExportPanel } from './components/ExportPanel';
 import { Costs } from './pages/Costs';
 import { Decisions } from './pages/Decisions';
 import { Options } from './pages/Options';
@@ -22,7 +23,7 @@ const PAGES: Page[] = [
   { path: 'options', label: 'Options', roles: ['organiser', 'group'], render: () => <Options /> },
   { path: 'decisions', label: 'Decisions', roles: ['organiser', 'group'], render: () => <Decisions /> },
   { path: 'payments', label: 'Payments', roles: ['organiser'], render: () => <Payments /> },
-  { path: 'settings', label: 'Settings', roles: ['organiser'], render: () => <Settings /> },
+  { path: 'settings', label: 'Settings', roles: ['organiser'], render: () => <Settings exportPanel={<ExportPanel />} /> },
 ];
 
 const ROLE_NAME: Record<Role, string> = { organiser: 'Organiser', group: 'Guest', groom: 'Groom' };
