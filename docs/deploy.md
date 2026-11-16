@@ -3,14 +3,23 @@
 The site has only run in demo mode so far (a copy of the database inside the browser). These steps
 put it on a real database and a public address. They have not been run yet.
 
-## 1. Database (Supabase)
+## 1. Database (Supabase): done 16 Nov 2026
 
-1. Project created: ref `bkqbwgjksyehobsmvzca`, so the site URL setting is
-   `https://bkqbwgjksyehobsmvzca.supabase.co`.
-2. Open the SQL editor, paste the whole of `supabase/setup.sql`, and run it once. It is the three
-   migrations and the seed in one transaction (rebuild it with `npm run build:sql`).
-3. Do **not** run `supabase/dev_seed.sql`. It holds the demo passcodes.
-4. Set three passcodes of your own (16 characters or more, hard to guess):
+Project `bkqbwgjksyehobsmvzca` (eu-west-2). Applied through the Supabase connector:
+
+- the four migrations in `supabase/migrations/` (schema, access, writes, harden);
+- `supabase/seed.sql`. Every table's contents were checked against the tested local copy.
+
+Checked on the live database, acting as the public (`anon`) role with temporary passcodes that
+were rolled back afterwards: the organiser gets all 50 options and payments, a guest gets decisions
+but no payments, the groom gets nothing before publish, and the organiser can edit and publish.
+
+To rebuild from scratch on an empty project, run `supabase/setup.sql` in the SQL editor.
+Never run `supabase/dev_seed.sql` there: it holds the demo passcodes.
+
+### Still to do: set the three passcodes
+
+In the Supabase SQL editor (16 characters or more each, hard to guess):
 
 ```sql
 select set_access_code('organiser', 'replace-with-a-long-random-string');
@@ -18,13 +27,14 @@ select set_access_code('group',     'replace-with-another-long-string');
 select set_access_code('groom',     'replace-with-a-third-long-string');
 ```
 
-Only a hash of each passcode is stored. Run the same line again to change one.
+Only a hash of each passcode is stored. Run the same line again to change one. Until these are
+set, nobody can get in.
 
-## 2. Site settings
+## 2. Site settings: done
 
-Copy `.env.example` to `.env` and fill in the project URL and the anon (public) key from
-Supabase > Project settings > API. The anon key is safe to publish: every table is locked, and the
-only way in is a database function that checks a passcode.
+`.env.production` holds the project URL and the publishable key, so `npm run build` produces a
+site that talks to the live database. Both values are public by design. `npm run dev` still runs
+in demo mode.
 
 ```bash
 npm run build
