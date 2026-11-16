@@ -170,7 +170,7 @@ the address bar. Demo passcodes are in `supabase/dev_seed.sql`; never run that f
 
 ## Not done yet
 
-- **Go live:** the database is live on Supabase (16 Nov 2026) and the build points at it. Still to do: set the three passcodes and choose a static host. The site has not yet been loaded in a browser against the live database. See `docs/deploy.md`.
+- **Go live:** the database is live on Supabase (16 Nov 2026) and the build points at it. Still to do: set the three passcodes and choose a static host. The production build was loaded in a browser against the live database with temporary passcodes (since deleted): all three roles behaved correctly and the seeded totals matched. See `docs/deploy.md`.
 - **FR-14 itinerary builder** (a "should") is not built.
 - **Saved scenarios:** the table and seed exist, but there is no "save this scenario" button yet.
 - **Assumption text edits:** the organiser can change an assumption's number (Workings > "Try a
