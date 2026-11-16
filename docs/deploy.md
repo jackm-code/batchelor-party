@@ -5,12 +5,10 @@ put it on a real database and a public address. They have not been run yet.
 
 ## 1. Database (Supabase)
 
-1. Create a free project at supabase.com.
-2. In the SQL editor, run these files in order:
-   1. `supabase/migrations/20261116000000_schema.sql`
-   2. `supabase/migrations/20261116000100_access.sql`
-   3. `supabase/migrations/20261116000200_writes.sql`
-   4. `supabase/seed.sql`
+1. Project created: ref `bkqbwgjksyehobsmvzca`, so the site URL setting is
+   `https://bkqbwgjksyehobsmvzca.supabase.co`.
+2. Open the SQL editor, paste the whole of `supabase/setup.sql`, and run it once. It is the three
+   migrations and the seed in one transaction (rebuild it with `npm run build:sql`).
 3. Do **not** run `supabase/dev_seed.sql`. It holds the demo passcodes.
 4. Set three passcodes of your own (16 characters or more, hard to guess):
 
