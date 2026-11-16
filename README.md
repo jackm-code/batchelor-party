@@ -23,7 +23,7 @@ npm test
 ## Build stages
 
 - [x] (a) Schema and seed data
-- [ ] (b) Cost calculator and Costs matrix
+- [x] (b) Cost calculator and Costs matrix
 - [ ] (c) Workings view
 - [ ] (d) Options, Decisions, Open questions
 - [ ] (e) Roles, groom view, publish switch
