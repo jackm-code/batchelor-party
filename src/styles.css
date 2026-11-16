@@ -284,3 +284,9 @@ td.r, th.r { text-align: right; }
 .bullets li + li { margin-top: var(--space-xs); }
 
 .centre { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; }
+
+/* ---------- Demo bar ---------- */
+
+.demo-bar { background: var(--warn-bg); color: var(--warn-text); font-size: 13px; padding: var(--space-xs) var(--space-md); text-align: center; }
+.demo-bar select { width: auto; min-height: 36px; font-size: 14px; padding: 4px 8px; margin-left: 4px; }
+main:focus { outline: none; }

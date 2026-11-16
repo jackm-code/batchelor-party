@@ -104,7 +104,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       return out;
     },
     reload: () => load(code),
-    signIn: (c) => { const t = c.trim(); if (!DEMO) write(KEY, t); setStatus('loading'); setCode(t); },
+    signIn: (c) => { const t = c.trim(); if (!DEMO) write(KEY, t); if (t !== code) { setStatus('loading'); setCode(t); } },
     signOut: () => { write(KEY, null); setCode(null); },
     setMe: (id) => { write(ME, id === null ? null : String(id)); setMeState(id); },
   }), [status, error, bundle, calc, overrides, me, code, load]);

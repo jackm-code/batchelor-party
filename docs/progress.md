@@ -9,8 +9,8 @@ Branch: `claude/compassionate-einstein-9g5ws3`.
 | b | Cost calculator and Costs matrix | Done |
 | c | Workings view (and Verdict page) | Done |
 | d | Options, Decisions, Open questions | Done |
-| e | Roles, groom view, publish switch | Next |
-| f | CSV and Markdown export | To do |
+| e | Roles, groom view, publish switch | Done |
+| f | CSV and Markdown export | Next |
 
 ## How to run
 
@@ -119,6 +119,27 @@ Boston $540 / $310 / $5,019 and NYC $558 / $593 / $6,273. In NYC, Boston-based g
 
 Guests must be on the guest list to vote or comment; only the organiser can add them (stage e adds
 the screen for that).
+
+## Stage (e): roles, groom view, publish switch
+
+| Role | Pages | Data sent by the database |
+| --- | --- | --- |
+| Organiser | All seven | Everything, including payments and the change log |
+| Group | Verdict, Costs, Workings, Options, Decisions | No payments, no change log |
+| Groom, before publish | "Nothing to see yet" | Only `{role, published: false}` |
+| Groom, after publish | Verdict, Workings (read-only) | No decisions, questions, guests, votes, comments, payments or payment tools |
+
+- `src/App.tsx`: page list per role, the groom's holding screen, and a "View as" picker in demo mode.
+- `src/pages/Settings.tsx` (organiser): publish switch, provisional or final verdict, add an exchange
+  rate (history kept), stale-source age, links to share, change log.
+- `src/pages/Payments.tsx` (organiser): guest list (name, country, currency, bed needed), suggested
+  share from the calculator with a buffer %, records of what is owed in the guest's own currency,
+  due date, mark paid. Records only.
+- Guests and payments are audited as well as inputs, options and decisions.
+- `tests/roles.test.ts`: 7 tests, including that a private comment never reaches the groom.
+
+Passcode links: `https://<site>/?k=<passcode>`. The passcode is saved on the device and removed from
+the address bar. Demo passcodes are in `supabase/dev_seed.sql`; never run that file on the real database.
 
 ## Not done yet (after stage f)
 

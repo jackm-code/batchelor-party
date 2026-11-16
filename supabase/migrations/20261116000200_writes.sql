@@ -191,3 +191,7 @@ begin
   values (p_entity_type, p_entity_id, p_guest_id, trim(p_body)) returning id into cid;
   return jsonb_build_object('id', cid);
 end $$;
+
+-- Guest and payment records are audited too: they are who-owes-what.
+create trigger audit_guests   after insert or update or delete on guests   for each row execute function audit_row();
+create trigger audit_payments after insert or update or delete on payments for each row execute function audit_row();
