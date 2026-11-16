@@ -25,11 +25,13 @@ export function SourceLine({ prov, staleDays }: { prov: Provenance | null; stale
       </p>
     );
   }
+  // The badge already says "Unverified": do not repeat it as a note.
+  const note = prov.statusNote && !/^unverified$/i.test(prov.statusNote) ? prov.statusNote : null;
   return (
     <div className="caption stack-sm">
       <p>
-        <VerifiedBadge ok={prov.verified} /> {prov.statusNote}
-        {prov.sources.length === 0 && (prov.statusNote ? ' · No source recorded.' : 'No source recorded.')}
+        <VerifiedBadge ok={prov.verified} /> {note}
+        {prov.sources.length === 0 && (note ? ' · No source recorded.' : 'No source recorded.')}
       </p>
       {prov.sources.map((s, i) => (
         <p key={i}>

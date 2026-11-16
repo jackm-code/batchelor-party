@@ -7,8 +7,8 @@ Branch: `claude/compassionate-einstein-9g5ws3`.
 | --- | --- | --- |
 | a | Schema and seed data | Done |
 | b | Cost calculator and Costs matrix | Done |
-| c | Workings view | Next |
-| d | Options, Decisions, Open questions | To do |
+| c | Workings view (and Verdict page) | Done |
+| d | Options, Decisions, Open questions | Next |
 | e | Roles, groom view, publish switch | To do |
 | f | CSV and Markdown export | To do |
 
@@ -85,6 +85,21 @@ Boston $540 / $310 / $5,019 and NYC $558 / $593 / $6,273. In NYC, Boston-based g
 - Section 7 shows £410 and £423 for the visiting guest. The site shows £409 and £422, because it
   converts the unrounded total (section 6 forbids rounding mid-calculation).
 - Research phase 1 shows NYC Premium, 2 nights as $2,106. The exact figure is $2,106.50, shown as $2,107.
+
+## Stage (c): Workings view and Verdict page
+
+- `src/pages/Workings.tsx`: pick a city and a guest type, then read the total built up in numbered
+  steps (beds, rooms, one room-night, all rooms, daily spend, activities, transfer, own costs, the
+  groom's share, total, conversion to GBP). Each input shows its value, source link and date, and a
+  Verified or Unverified badge. Source conflicts appear beside the figure they affect.
+- What-if: every input has "Try a different value". It changes Costs, Verdict and the break-even at
+  once, is never saved, and "Reset" returns to the stored value.
+- Assumptions register (FR-11) at the foot of the page: every assumption, what it affects, its source.
+- Any total on Costs, the matrix or Verdict links to its workings (`#/workings?city=..&who=..`).
+- `src/pages/Verdict.tsx`: Boston, marked Provisional (from `app_settings.verdict_status`). Cost is
+  live; fit, logistics and risk come from research phase 1; "The case for NYC" has a live numbers
+  check against the break-even rate.
+- The research point "the groom lives in Boston" was left out: Jack confirmed he lives in Minnesota.
 
 ## Not done yet (after stage f)
 

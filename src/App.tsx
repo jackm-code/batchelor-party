@@ -3,11 +3,15 @@ import { useStore } from './data/store';
 import { useRoute } from './lib/route';
 import type { Role } from './lib/types';
 import { Costs } from './pages/Costs';
+import { Verdict } from './pages/Verdict';
+import { Workings } from './pages/Workings';
 
 interface Page { path: string; label: string; roles: Role[]; wide?: boolean; render: () => ReactNode }
 
 const PAGES: Page[] = [
+  { path: 'verdict', label: 'Verdict', roles: ['organiser', 'group', 'groom'], render: () => <Verdict /> },
   { path: 'costs', label: 'Costs', roles: ['organiser', 'group'], wide: true, render: () => <Costs /> },
+  { path: 'workings', label: 'Workings', roles: ['organiser', 'group', 'groom'], render: () => <Workings /> },
 ];
 
 export function App() {
