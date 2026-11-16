@@ -16,7 +16,7 @@ describe('supabase/setup.sql (the file pasted into the SQL editor)', () => {
     const db = new PGlite();
     await db.exec(file);
     const n = async (sql: string) => Number((await db.query<{ n: number }>(`select count(*) as n from ${sql}`)).rows[0].n);
-    expect(await n('options')).toBe(52);
+    expect(await n('options')).toBe(50);
     expect(await n('decisions')).toBe(6);
     expect(await n('access_codes')).toBe(0);
     expect(file).not.toContain('demo-organiser-code');
